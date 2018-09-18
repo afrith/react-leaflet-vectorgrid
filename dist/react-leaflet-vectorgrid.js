@@ -135,6 +135,8 @@ return /******/ (function(modules) { // webpackBootstrap
 				    vectorTileLayerStyles = props.vectorTileLayerStyles,
 				    url = props.url,
 				    maxNativeZoom = props.maxNativeZoom,
+				    maxZoom = props.maxZoom,
+				    minZoom = props.minZoom,
 				    subdomains = props.subdomains,
 				    key = props.key,
 				    token = props.token;
@@ -160,14 +162,17 @@ return /******/ (function(modules) { // webpackBootstrap
 				this.highlight = null;
 				this.active = null;
 
+				var zIndexCalc = zIndex || layerContainer._panes[pane] && Number(layerContainer._panes[pane].style.zIndex) || 400;
+
 				var vectorGrid = _leaflet2.default.vectorGrid.slicer(data, {
 					interactive: interactive,
-					zIndex: zIndex || Number(layerContainer._panes[pane].style.zIndex),
+					zIndex: zIndexCalc,
 					getFeatureId: function getFeatureId(feature) {
 						return _this2._getFeatureId(feature);
 					},
 					rendererFactory: _leaflet2.default.svg.tile,
-					maxZoom: map.getMaxZoom(),
+					maxZoom: maxZoom || map.getMaxZoom(),
+					minZoom: minZoom || map.getMinZoom(),
 					vectorTileLayerStyles: vectorTileLayerStyles || {
 						sliced: function sliced(properties, zoom) {
 							var bs = baseStyle(properties, zoom);
@@ -183,15 +188,16 @@ return /******/ (function(modules) { // webpackBootstrap
 						interactive: interactive,
 						url: url,
 						maxNativeZoom: maxNativeZoom,
-						subdomains: subdomains,
+						subdomains: subdomains || 'abc',
 						key: key,
 						token: token,
-						zIndex: zIndex || Number(layerContainer._panes[pane].style.zIndex),
+						zIndex: zIndexCalc,
 						getFeatureId: function getFeatureId(feature) {
 							return _this2._getFeatureId(feature);
 						},
 						rendererFactory: _leaflet2.default.svg.tile,
-						maxZoom: map.getMaxZoom()
+						maxZoom: maxZoom || map.getMaxZoom(),
+						minZoom: minZoom || map.getMinZoom()
 					});
 				}
 
