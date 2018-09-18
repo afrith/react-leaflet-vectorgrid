@@ -54,7 +54,7 @@ export default class VectorGrid extends MapLayer {
 				interactive,
 				url,
 				maxNativeZoom,
-				subdomains,
+				subdomains: subdomains || 'abc',
 				key,
 				token,
 				zIndex: zIndexCalc,
