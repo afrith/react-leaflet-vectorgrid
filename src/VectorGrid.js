@@ -28,9 +28,13 @@ export default class VectorGrid extends MapLayer {
 		this.highlight = null;
 		this.active = null;
 
+		const zIndexCalc = zIndex
+			|| (layerContainer._panes[pane] && Number(layerContainer._panes[pane].style.zIndex))
+			|| 400;
+
 		let vectorGrid = L.vectorGrid.slicer(data, {
 			interactive,
-			zIndex: zIndex || Number(layerContainer._panes[pane].style.zIndex),
+			zIndex: zIndexCalc,
 			getFeatureId: feature => this._getFeatureId(feature),
 			rendererFactory: L.svg.tile,
 			maxZoom: maxZoom || map.getMaxZoom(),
@@ -53,7 +57,7 @@ export default class VectorGrid extends MapLayer {
 				subdomains,
 				key,
 				token,
-				zIndex: zIndex || Number(layerContainer._panes[pane].style.zIndex),
+				zIndex: zIndexCalc,
 				getFeatureId: feature => this._getFeatureId(feature),
 				rendererFactory: L.svg.tile,
 				maxZoom: maxZoom || map.getMaxZoom(),
